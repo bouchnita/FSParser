@@ -1,10 +1,6 @@
-#steps:
-#1-open image file
-#2-parse
-#3-print results
-##########################
 #importing libraries
 import binascii
+import mbrprints as mp
 
 #reading file
 filename=r"C:\Users\ily455\Desktop\SICS\2\S4\forensics\tp\1-2\deviceImageCorrupted.raw"
@@ -27,8 +23,10 @@ def parsePartition(partition):
     CHSaddrLast=partition[10:16]
     LBA=partition[16:24]
     numSectors=partition[24:32]
-    partInfos=[status, CHSaddrFirst, CHSaddrLast, partType, LBA, numSectors]
+    partInfos=[status.decode("utf-8"), int('0x'+partType.decode("utf-8"),base=16) , CHSaddrFirst.decode("utf-8"), CHSaddrLast.decode("utf-8") , LBA.decode("utf-8") , numSectors.decode("utf-8") ]
     return partInfos
+
+
 
 #hanta al7aj rani ktbt hadchi from scratch gadlna had l fonction bach tb9a tchd dok les valeurs li 
 # kat3titha parsePartition w trdhom meaningful bhal dik 80 y3ni bootable, 
@@ -45,12 +43,13 @@ def parsePartition(partition):
 #function to print mbr information
 def printParsed(infos):
     print(f''' 
-    This partition is a {infos[0]} filesystem
-    Start address : {infos[1]}
-    End address : {infos[2]}
-    Partition type : {infos[3]}
-    LBA : {infos[4]}
-    Number of sectors is {infos[5]}
+    -This partition is {infos[0]} 
+    -Partition type : {infos[1]}
+    -Number of sectors : {infos[5][0]} sector
+    -Size of the partition : {infos[5][1]} MB
+    -LBA of first absolute sector in the partition : {infos[4]}
+    -CHS Start address : {infos[2]}
+    -CHS End address : {infos[3]}
     ''')
     return None
 
@@ -67,14 +66,19 @@ def splitPartitions():
 #function to print the results
 def printResult():
     index=1
+    print('''
+    [+]Parsing...
+    [+]Reading...''')
     for part in splitPartitions():
-        print('***Partion number ', index, ':')
+        print('#Partion number ', index, ':')
         if part!=b'00000000000000000000000000000000':
-            printParsed(parsePartition(part))
+            # printParsed(parsePartition(part))
+            printParsed(mp.prettifyInfos(parsePartition(part)))
             index+=1
         else:
             print('This partition is empty')
             index+=1
         print('-------------------------------------')
 
+printResult()
 # print(readFroma2b('8200','8202'))

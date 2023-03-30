@@ -3,6 +3,9 @@
 
 import binascii
 import mbrparse as m
+
+SECTOR_SIZE = 512
+
 #this function converts little endian to big endian, creds to dkuers on stackoverflow
 def lil2BigEndian(hex):
     ba = bytearray.fromhex(hex.decode("utf-8"))
@@ -13,12 +16,12 @@ def lil2BigEndian(hex):
 
 #function to calculate the fs starting address
 def calStartAddr(addr):
-    A=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(addr)))*512+1024)).replace('0x', '')
+    A=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(addr)))*SECTOR_SIZE+1024)).replace('0x', '')
     return A
 
 #function to calculate the fs ending address
 def calEndAddr(startAddr, numOfSec):
-    B=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(numOfSec)))*512+int.from_bytes(binascii.unhexlify(lil2BigEndian(startAddr)))*512+1024)).replace('0x', '')
+    B=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(numOfSec)))*SECTOR_SIZE+int.from_bytes(binascii.unhexlify(lil2BigEndian(startAddr)))*SECTOR_SIZE+1024)).replace('0x', '')
     return B
 
 LBA=b'3f000000'
