@@ -44,12 +44,24 @@ def parsePartition(partition):
 def printParsed(infos):
     print(f''' 
     -This partition is {infos[0]} 
+
     -Partition type : {infos[1]}
+
     -Number of sectors : {infos[5][0]} sector
+    
     -Size of the partition : {infos[5][1]} MB
+    
     -LBA of first absolute sector in the partition : {infos[4]}
-    -CHS Start address : {infos[2]}
-    -CHS End address : {infos[3]}
+    
+    -CHS Start coordinates : 
+        Head : {infos[2][0]}
+        Sector : {infos[2][1]}
+        Cylinder : {infos[2][2]}
+
+    -CHS End coordinates : 
+        Head : {infos[3][0]}
+        Sector : {infos[3][1]}
+        Cylinder : {infos[3][2]}
     ''')
     return None
 
@@ -60,7 +72,7 @@ def splitPartitions():
     part3=readFroma2b('01DE','01EE')
     part4=readFroma2b('01EE','01FE')
     btsig=readFroma2b('01FE','0200')
-    partitions=[part1,part2,part3,part4]
+    partitions=[part1,part2,part3,part4,btsig]
     return partitions
 
 #function to print the results
@@ -69,9 +81,9 @@ def printResult():
     print('''
     [+]Parsing...
     [+]Reading...''')
-    for part in splitPartitions():
+    for part in splitPartitions()[0:4] :
         print('#Partion number ', index, ':')
-        if part!=b'00000000000000000000000000000000':
+        if part!=b'00000000000000000000000000000000' :
             # printParsed(parsePartition(part))
             printParsed(mp.prettifyInfos(parsePartition(part)))
             index+=1
@@ -79,6 +91,11 @@ def printResult():
             print('This partition is empty')
             index+=1
         print('-------------------------------------')
+    if splitPartitions()[4] == b'55aa':
+        print('Boot signature is valid. (==55AA)')
+    else:
+        print('Boot signature is invalid. (!=55AA)')
+
 
 printResult()
 # print(readFroma2b('8200','8202'))

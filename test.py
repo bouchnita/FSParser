@@ -49,7 +49,7 @@ types = {
 
 test="0xfb"
 val=types.get(int(test,base=16))
-print(val)
+print((int(test,base=16)))
 if val==None:
     val='Unknown'
 else:

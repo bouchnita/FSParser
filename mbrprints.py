@@ -61,18 +61,6 @@ def Partition_type(value):
     return type
 
 
-def CHS_start(little):
-    bytes_data = bytes.fromhex(little)
-    integer_value = int.from_bytes(bytes_data, byteorder='little')
-    return integer_value
-
-
-def CHS_end(value):
-    bytes_data = bytes.fromhex(value)
-    integer_value = int.from_bytes(bytes_data, byteorder='little')
-    return integer_value
-
-
 def LBA_start(value):
     bytes_data = bytes.fromhex(value)
     integer_value = int.from_bytes(bytes_data, byteorder='little')
@@ -88,9 +76,17 @@ def size(value):
 
 
 def prettifyInfos(infos):
-    infos=[is_bootable(infos[0]), Partition_type(infos[1]), CHS_start(infos[2]), CHS_end(infos[3]), LBA_start(infos[4]), size(infos[5])]
+    infos=[is_bootable(infos[0]), Partition_type(infos[1]), chs_values(infos[2]), chs_values(infos[3]), LBA_start(infos[4]), size(infos[5])]
     return infos
 
+def chs_values(value):
+    head = (int('0x'+value[0:2],16))
+    sector = (int('0x'+value[2:4],16))
+    cylinder = (int('0x'+value[4:],16))
+    return [head, sector, cylinder]
 
+
+
+print(chs_values('FE3F08'))
 
 # print(LBA_start('3f000000'))
