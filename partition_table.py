@@ -13,10 +13,10 @@ def CHS_start(little):
 def Partition_type(value):
     if value == '83':
         print("partition type : ext4")
-        partition = ext4
+        partition = 'ext4'
     if value == '07':
         print("partition type : NTFS")
-        partition = ntfs
+        partition = 'ntfs'
     else:
         print("file system not supported !")
         return partition
