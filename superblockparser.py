@@ -134,8 +134,32 @@ def Default_gid(value):
 	return default_gid
 
 
-
-
+def SB_split(): #superblock == list dyal bytes li extractiti
+		s_inodes_count = readFroma2b('00','04')
+		s_blocks_count_lo = readFroma2b('04','08')
+		s_r_blocks_count_lo = readFroma2b('08','C')
+		s_free_blocks_count_lo = readFroma2b('C','10')
+		s_free_inodes_count = readFroma2b('10','14')
+		s_first_data_block = readFroma2b('14','18')
+		s_log_block_size = readFroma2b('18','1C')
+		s_log_cluster_size = readFroma2b('1C','20')
+		s_blocks_per_group = readFroma2b('20';'24')
+		s_clusters_per_group = readFroma2b('24','28')
+		s_inodes_per_group = readFroma2b('28','2C')
+		s_mtime = readFroma2b('2C','30')
+		s_wtime = readFroma2b('30','34')
+		s_mnt_count = readFroma2b('30','36')
+		#s_max_mnt_count SKIP
+		s_magic = readFroma2b('38','3A')
+		s_state = readFroma2b('3A','3C')
+		#s_errors SKIP
+		#s_minor_rev_level SKIP
+		#s_lastcheck SKIP
+		#s_checkinterval SKIP
+		s_creator_os = readFroma2b('48','4C')
+		s_rev_level = readFroma2b('4C','50')
+		s_def_resuid = readFroma2b('50','52')
+		s_def_resgid = readFroma2b('52','54')
 
 
 
