@@ -1,5 +1,12 @@
 from datetime import datetime
 
+def readFroma2b( a, b):
+    with open(filename,'rb') as f:
+        lenght=int(b,base=16)-int(a,base=16)
+        f.seek(int(a,base=16))
+        readBytes=binascii.hexlify(f.read(lenght))
+    return readBytes
+
 
 def Inode_count(value): #size 32
 	bytes_data = bytes.fromhex(value)
@@ -170,7 +177,7 @@ def SB_split(): #superblock == list dyal bytes li extractiti
 		return fields
 
 
-def Parser(superblock):
+def Parser(filename):
 	SB_split()
 	Inode_count(fields[0])
 	Block_count(fields[1])
