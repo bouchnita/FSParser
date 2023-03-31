@@ -28,7 +28,7 @@ def Free_block(value):
 def Free_inode(value):
     bytes_data = bytes.fromhex(value)
     free_inode = int.from_bytes(bytes_data, byteorder='little')
-    return free_block
+    return free_inode 
 
 def First_data_block(value): #Where group0 start
 	bytes_data = bytes.fromhex(value)
@@ -47,6 +47,12 @@ def Cluster_size(value):
 	power = int.from_bytes(bytes_data, byteorder='little')
 	cluster_size = 10**power
 	return cluster_size
+
+
+def Block_per_group(value):
+	bytes_data = bytes.fromhex(value)
+	block_per_group = int.from_bytes(bytes_data, byteorder='little')
+	return block_per_group
 
 
 def Cluster_per_group(value):
@@ -71,7 +77,7 @@ def Mount_time(value):
 def Write_time(value):
 	bytes_data = bytes.fromhex(value)
 	write_time = int.from_bytes(bytes_data, byteorder='little')
-	write_time = datetime.fromtimestamp(mount_time).strftime("%A, %B %d, %Y %I:%M:%S")
+	write_time = datetime.fromtimestamp(write_time).strftime("%A, %B %d, %Y %I:%M:%S")
 	return write_time
 
 
@@ -133,7 +139,6 @@ def Default_gid(value):
 	default_gid = int.from_bytes(bytes_data, byteorder='little')
 	return default_gid
 
-
 def SB_split(): #superblock == list dyal bytes li extractiti
 		s_inodes_count = readFroma2b('00','04')
 		s_blocks_count_lo = readFroma2b('04','08')
@@ -161,6 +166,32 @@ def SB_split(): #superblock == list dyal bytes li extractiti
 		s_def_resuid = readFroma2b('50','52')
 		s_def_resgid = readFroma2b('52','54')
 
+		fields = [s_inodes_count,s_blocks_count_lo,s_r_blocks_count_lo,s_free_blocks_count_lo,s_free_inodes_count,s_first_data_block,s_log_block_size,s_log_cluster_size,s_blocks_per_group,s_clusters_per_group,s_inodes_per_group,s_mtime,s_wtime,s_mnt_count,s_magic,s_state,s_creator_os,s_rev_level,s_def_resuid,s_def_resgid]
+		return fields
 
+
+def Parser(superblock):
+	SB_split()
+	Inode_count(fields[0])
+	Block_count(fields[1])
+	Su_block(fields[2])
+	Free_block([fields[3]])
+	Free_inode(fields[4])
+	First_data_block(fields[5])
+	Block_size(fields[6])
+	Cluster_size(fields[7])
+	Block_per_group(fields[8])
+	Cluster_per_group(fields[9])
+	Inode_per_group(fields[10])
+	Mount_time(fields[11])
+	Write_time(fields[12])
+	Number_of_mount(fields[13])
+	Magic_signature(fields[14])
+	FS_state(fields[15])
+	Creator_OS(fields[16])
+	Revision_level(fields[17])
+	Default_uid(fields[18])
+	Default_gid(fields[19])
+	result = [inode_count,block_count,su_value,free_block,free_inode,first_data_block,block_size,cluster_size,block_per_group,cluster_per_group,inode_per_group,mount_time,write_time,number_of_mount,magic_signature,state,creator,level,default_uid,default_gid]
 
 
