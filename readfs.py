@@ -30,7 +30,7 @@ numSectors=b'8a340200'
 fsContent=m.readFroma2b(calStartAddr(LBA), calEndAddr(LBA, numSectors))
 
 
-
+print(type(fsContent))
 
 
 # print(NTFS)

@@ -97,5 +97,5 @@ def printResult():
         print('Boot signature is invalid. (!=55AA)')
 
 
-printResult()
+# printResult()
 # print(readFroma2b('8200','8202'))

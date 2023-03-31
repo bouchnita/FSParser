@@ -87,6 +87,6 @@ def chs_values(value):
 
 
 
-print(chs_values('FE3F08'))
+# print(chs_values('FE3F08'))
 
 # print(LBA_start('3f000000'))
