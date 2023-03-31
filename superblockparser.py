@@ -25,7 +25,7 @@ def Free_block(value):
     return free_block
 
 
-def Free_indode(value):
+def Free_inode(value):
     bytes_data = bytes.fromhex(value)
     free_inode = int.from_bytes(bytes_data, byteorder='little')
     return free_block
