@@ -2,38 +2,41 @@
 
 
 import binascii
+from mbrparse import *
 import mbrparse as m
+import mbrprints as mp
 
 SECTOR_SIZE = 512
 
 #this function converts little endian to big endian, creds to dkuers on stackoverflow
 def lil2BigEndian(hex):
+    hex=bytes(str(hex),'utf-8')
     ba = bytearray.fromhex(hex.decode("utf-8"))
     ba.reverse()
-    s = ''.join(format(x, '02x') for x in ba)
-    s = bytes(s, 'utf-8')
+    s = int(''.join(format(x, '02x') for x in ba))
+    # s = bytes(s, 'utf-8')
     return s
 
 #function to calculate the fs starting address
 def calStartAddr(addr):
-    A=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(addr)))*SECTOR_SIZE+1024)).replace('0x', '')
+    A=str(hex(addr*SECTOR_SIZE)).replace('0x', '')
     return A
 
 #function to calculate the fs ending address
 def calEndAddr(startAddr, numOfSec):
-    B=str(hex(int.from_bytes(binascii.unhexlify(lil2BigEndian(numOfSec)))*SECTOR_SIZE+int.from_bytes(binascii.unhexlify(lil2BigEndian(startAddr)))*SECTOR_SIZE+1024)).replace('0x', '')
+    B=str(hex(numOfSec*SECTOR_SIZE+startAddr*SECTOR_SIZE)).replace('0x', '')
     return B
 
-LBA=b'3f000000'
-numSectors=b'8a340200'
+LBA=mp.prettifyInfos(m.parsePartition(m.splitPartitions()[0]))[4]
+numSectors=mp.prettifyInfos(parsePartition(splitPartitions()[0]))[5][0]
 
 fsContent=m.readFroma2b(calStartAddr(LBA), calEndAddr(LBA, numSectors))
 
 
-print(type(fsContent))
 
 
-# print(NTFS)
+# print(fsContent)
+# print(lil2BigEndian('123456'))
 # print(calEndAddr(LBA, tb))
 # print(type(calStartAddr(LBA)))
 # print(int('F',base=16))
