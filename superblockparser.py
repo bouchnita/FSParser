@@ -93,6 +93,11 @@ def Number_of_mount(value):
 	number_of_mount = int.from_bytes(bytes_data, byteorder='little')
 	return number_of_mount
 
+def Max_mount_count(value):	#added
+	bytes_data = bytes.fromhex(value)
+	max_mount_count = int.from_bytes(bytes_data, byteorder='little')
+	return max_mount_count
+
 
 def Magic_signature(value):
 	bytes_data = bytes.fromhex(value)
@@ -110,6 +115,38 @@ def FS_state(value):
 	return state
 
 
+def S_errors(value):	#added
+	bytes_data = bytes.fromhex(value)
+	value = int.from_bytes(bytes_data, byteorder='little')	
+	if value == 1:
+		behaviour = 'Continue'
+	elif value == 2:
+		behaviour = 'Remount read-only '
+	elif value == 3:
+		behaviour = 'Panic'
+	return behaviour
+
+
+def Minor_rev_level(value):	#added
+	bytes_data = bytes.fromhex(value)
+	minor_rev_level = int.from_bytes(bytes_data, byteorder='little')
+	return minor_rev_level
+
+
+def Last_time_check(value): #added
+	bytes_data = bytes.fromhex(value)
+	last_time_check = int.from_bytes(bytes_data, byteorder='little')
+	last_time_check = datetime.fromtimestamp(write_time).strftime("%A, %B %d, %Y %I:%M:%S")
+	return last_time_check
+
+
+def Check_interval(value):	#added
+	bytes_data = bytes.fromhex(value)
+	check_interval = int.from_bytes(bytes_data, byteorder='little')
+	return check_interval
+
+	
+	
 def Creator_OS(value):
 	bytes_data = bytes.fromhex(value)
 	value = int.from_bytes(bytes_data, byteorder='little')	
@@ -125,6 +162,8 @@ def Creator_OS(value):
 		creator = 'Lites'
 	return creator
 
+
+
 def Revision_level(value):
 	bytes_data = bytes.fromhex(value)
 	value = int.from_bytes(bytes_data, byteorder='little')
@@ -135,6 +174,7 @@ def Revision_level(value):
 	else:
 		level = 'Unknown'
 	return level
+
 
 def Default_uid(value):
 	bytes_data = bytes.fromhex(value)
@@ -147,33 +187,33 @@ def Default_gid(value):
 	return default_gid
 
 def SB_split(): #superblock == list dyal bytes li extractiti
-		s_inodes_count = readFroma2b('00','04')
-		s_blocks_count_lo = readFroma2b('04','08')
-		s_r_blocks_count_lo = readFroma2b('08','C')
-		s_free_blocks_count_lo = readFroma2b('C','10')
-		s_free_inodes_count = readFroma2b('10','14')
-		s_first_data_block = readFroma2b('14','18')
-		s_log_block_size = readFroma2b('18','1C')
-		s_log_cluster_size = readFroma2b('1C','20')
-		s_blocks_per_group = readFroma2b('20','24')
-		s_clusters_per_group = readFroma2b('24','28')
-		s_inodes_per_group = readFroma2b('28','2C')
-		s_mtime = readFroma2b('2C','30')
-		s_wtime = readFroma2b('30','34')
-		s_mnt_count = readFroma2b('30','36')
-		#s_max_mnt_count SKIP
-		s_magic = readFroma2b('38','3A')
-		s_state = readFroma2b('3A','3C')
-		#s_errors SKIP
-		#s_minor_rev_level SKIP
-		#s_lastcheck SKIP
-		#s_checkinterval SKIP
-		s_creator_os = readFroma2b('48','4C')
-		s_rev_level = readFroma2b('4C','50')
-		s_def_resuid = readFroma2b('50','52')
-		s_def_resgid = readFroma2b('52','54')
+		s_inodes_count = readFroma2b('00','04')		#0
+		s_blocks_count_lo = readFroma2b('04','08')	#1
+		s_r_blocks_count_lo = readFroma2b('08','C')	#2
+		s_free_blocks_count_lo = readFroma2b('C','10')	#3
+		s_free_inodes_count = readFroma2b('10','14')	#4
+		s_first_data_block = readFroma2b('14','18')	#5
+		s_log_block_size = readFroma2b('18','1C')	#6
+		s_log_cluster_size = readFroma2b('1C','20')	#7
+		s_blocks_per_group = readFroma2b('20','24')	#8
+		s_clusters_per_group = readFroma2b('24','28')	#9
+		s_inodes_per_group = readFroma2b('28','2C')	#10
+		s_mtime = readFroma2b('2C','30')		#11	
+		s_wtime = readFroma2b('30','34')		#12
+		s_mnt_count = readFroma2b('34','36')		#13
+		s_max_mnt_count = readFroma2b('36','38') #added	14
+		s_magic = readFroma2b('38','3A')		#15
+		s_state = readFroma2b('3A','3C')		#16
+		s_errors = readFroma2b('3C','3E')	#added	#17
+		s_minor_rev_level = readFroma2b('3E','40') 	#added 18
+		s_lastcheck = readFroma2b('40','44')	#added	19
+		s_checkinterval = readFroma2b('44','48')	#added 20
+		s_creator_os = readFroma2b('48','4C')		#21
+		s_rev_level = readFroma2b('4C','50')		#22
+		s_def_resuid = readFroma2b('50','52')		#23
+		s_def_resgid = readFroma2b('52','54')		#24
 
-		fields = [s_inodes_count,s_blocks_count_lo,s_r_blocks_count_lo,s_free_blocks_count_lo,s_free_inodes_count,s_first_data_block,s_log_block_size,s_log_cluster_size,s_blocks_per_group,s_clusters_per_group,s_inodes_per_group,s_mtime,s_wtime,s_mnt_count,s_magic,s_state,s_creator_os,s_rev_level,s_def_resuid,s_def_resgid]
+		fields = [s_inodes_count,s_blocks_count_lo,s_r_blocks_count_lo,s_free_blocks_count_lo,s_free_inodes_count,s_first_data_block,s_log_block_size,s_log_cluster_size,s_blocks_per_group,s_clusters_per_group,s_inodes_per_group,s_mtime,s_wtime,s_mnt_count,s_max_mnt_count,s_magic,s_state,s_errors,s_minor_rev_level,s_lastcheck,s_checkinterval,s_creator_os,s_rev_level,s_def_resuid,s_def_resgid]
 		return fields
 
 
@@ -193,11 +233,16 @@ def Parser(fields):
 	Mount_time(fields[11]),
 	Write_time(fields[12]),
 	Number_of_mount(fields[13]),
-	Magic_signature(fields[14]),
-	FS_state(fields[15]),
-	Creator_OS(fields[16]),
-	Revision_level(fields[17]),
-	Default_uid(fields[18]),
-	Default_gid(fields[19])]
+	Max_mount_count(fields[14]),
+	Magic_signature(fields[15]),
+	FS_state(fields[16]),
+	S_errors(fields[17]),
+	Minor_rev_level(fields[18]),
+	Last_time_check(fields[19]),
+	Check_interval(fields[20]),
+	Creator_OS(fields[21]),
+	Revision_level(fields[22]),
+	Default_uid(fields[23]),
+	Default_gid(fields[24])]
 
 
