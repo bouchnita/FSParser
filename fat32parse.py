@@ -9,8 +9,8 @@ import readfs
 from readfs import *
 from mbrparse import *
 
-bootSector=fsContent[0:1024]
-bootSectorElements=[['00', '3', 'Jump instruction'],
+sectionToParse=fsContent[0:1024]
+sectionToParseElements=[['00', '3', 'Jump instruction'],
  ['03', '8', 'OEM name'],
  ['0B', '2', 'Bytes per sector'],
  ['0D', '1', 'Sectors per cluster'],
@@ -42,10 +42,10 @@ bootSectorElements=[['00', '3', 'Jump instruction'],
 
 
 sum=0
-for element in bootSectorElements:
-    print(f"-{element[2]} : {bootSector[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}")
+for element in sectionToParseElements:
+    print(f"-{element[2]} : {sectionToParse[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}")
     sum+=int(element[1])
 print(sum)
-# print(int(bootSectorElements[2][0],base=16))
-# print(bootSector[487*2:487*2+2*2])
+# print(int(sectionToParseElements[2][0],base=16))
+# print(sectionToParse[487*2:487*2+2*2])
 # print(fsContent[0:500])

@@ -3,7 +3,8 @@ import binascii
 import mbrprints as mp
 
 #reading file
-filename=r"C:\Users\ily455\Desktop\fat32sample"
+# filename=r"C:\Users\ily455\Desktop\fat32sample" #fat32sample
+filename=r"C:\Users\ily455\Desktop\SICS\2\S4\forensics\tp\1-2\deviceImageCorrupted.raw" #ext4sample
 filename.replace('\\','/')
 
 # variable to keep track of existing filesystems

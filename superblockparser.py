@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from mbrparse import *
 def readFroma2b( a, b):
     with open(filename,'rb') as f:
         lenght=int(b,base=16)-int(a,base=16)
@@ -155,7 +155,7 @@ def SB_split(): #superblock == list dyal bytes li extractiti
 		s_first_data_block = readFroma2b('14','18')
 		s_log_block_size = readFroma2b('18','1C')
 		s_log_cluster_size = readFroma2b('1C','20')
-		s_blocks_per_group = readFroma2b('20';'24')
+		s_blocks_per_group = readFroma2b('20','24')
 		s_clusters_per_group = readFroma2b('24','28')
 		s_inodes_per_group = readFroma2b('28','2C')
 		s_mtime = readFroma2b('2C','30')
@@ -177,28 +177,27 @@ def SB_split(): #superblock == list dyal bytes li extractiti
 		return fields
 
 
-def Parser(filename):
+def Parser(fields):
 	SB_split()
-	Inode_count(fields[0])
-	Block_count(fields[1])
-	Su_block(fields[2])
-	Free_block([fields[3]])
-	Free_inode(fields[4])
-	First_data_block(fields[5])
-	Block_size(fields[6])
-	Cluster_size(fields[7])
-	Block_per_group(fields[8])
-	Cluster_per_group(fields[9])
-	Inode_per_group(fields[10])
-	Mount_time(fields[11])
-	Write_time(fields[12])
-	Number_of_mount(fields[13])
-	Magic_signature(fields[14])
-	FS_state(fields[15])
-	Creator_OS(fields[16])
-	Revision_level(fields[17])
-	Default_uid(fields[18])
-	Default_gid(fields[19])
-	result = [inode_count,block_count,su_value,free_block,free_inode,first_data_block,block_size,cluster_size,block_per_group,cluster_per_group,inode_per_group,mount_time,write_time,number_of_mount,magic_signature,state,creator,level,default_uid,default_gid]
+	result=[Inode_count(fields[0]),
+	Block_count(fields[1]),
+	Su_block(fields[2]),
+	Free_block([fields[3]]),
+	Free_inode(fields[4]),
+	First_data_block(fields[5]),
+	Block_size(fields[6]),
+	Cluster_size(fields[7]),
+	Block_per_group(fields[8]),
+	Cluster_per_group(fields[9]),
+	Inode_per_group(fields[10]),
+	Mount_time(fields[11]),
+	Write_time(fields[12]),
+	Number_of_mount(fields[13]),
+	Magic_signature(fields[14]),
+	FS_state(fields[15]),
+	Creator_OS(fields[16]),
+	Revision_level(fields[17]),
+	Default_uid(fields[18]),
+	Default_gid(fields[19])]
 
 
