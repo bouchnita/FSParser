@@ -36,11 +36,11 @@ superBlockElements = [  ['00', '4', 'Inode count'],
   ['3C', '2', 'Error handling'],
   ['3E', '2', 'Minor revision level'],
   ['40', '4', 'Last check time'],
-  ['44', '4', 'Check interval'],
+  ['44', '4', 'Check interval in seconds'],
   ['48', '4', 'Creator OS'],
   ['4C', '4', 'Revision level'],
-  ['50', '4', 'Default UID for reserved blocks'],
-  ['54', '2', 'Default GID for reserved blocks']]
+  ['50', '2', 'Default UID for reserved blocks'],
+  ['52', '2', 'Default GID for reserved blocks']]
 
 
 for element in superBlockElements:
