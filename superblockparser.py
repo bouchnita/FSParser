@@ -136,7 +136,7 @@ def Minor_rev_level(value):	#added
 def Last_time_check(value): #added
 	bytes_data = bytes.fromhex(value)
 	last_time_check = int.from_bytes(bytes_data, byteorder='little')
-	last_time_check = datetime.fromtimestamp(write_time).strftime("%A, %B %d, %Y %I:%M:%S")
+	last_time_check = datetime.fromtimestamp(last_time_check).strftime("%A, %B %d, %Y %I:%M:%S")
 	return last_time_check
 
 
