@@ -47,10 +47,5 @@ types = {
     0xfc: "Vmware swap",
 }
 
-test="0xfb"
-val=types.get(int(test,base=16))
-print((int(test,base=16)))
-if val==None:
-    val='Unknown'
-else:
-    None
+test='FA'
+print(int(test,base=16))
