@@ -1,7 +1,7 @@
 
 from readfs import *
 from mbrparse import *
-
+from superblockparser import *
 
 
 
@@ -44,4 +44,4 @@ superBlockElements = [  ['00', '4', 'Inode count'],
 
 
 for element in superBlockElements:
-    print(f"-{element[2]} : {superBlock[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}")
+    print(f"-{element[2]} : {superBlock[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}  --valeur:  {Parser(superBlock)[superBlockElements.index(element)]}")

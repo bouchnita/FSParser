@@ -1,11 +1,5 @@
 from datetime import datetime
 from mbrparse import *
-def readFroma2b( a, b):
-    with open(filename,'rb') as f:
-        lenght=int(b,base=16)-int(a,base=16)
-        f.seek(int(a,base=16))
-        readBytes=binascii.hexlify(f.read(lenght))
-    return readBytes
 
 
 def Inode_count(value): #size 32
@@ -104,8 +98,9 @@ def Magic_signature(value):
 	magic_signature = int.from_bytes(bytes_data, byteorder='little')
 	return magic_signature
 
-
+#had jouj dyal les variables(state w behavious) drthom la79ach les fonctions li jayin makay9doch y returniw valeur dyal variable tcreeat f wst if w else, wlkn ba9i lmochkil li gtlk fl audio
 def FS_state(value):
+	state=''
 	if value == '0001':
 		state = 'cleanly unmounted'
 	elif value == '0002':
@@ -116,6 +111,7 @@ def FS_state(value):
 
 
 def S_errors(value):	#added
+	behaviour=''
 	bytes_data = bytes.fromhex(value)
 	value = int.from_bytes(bytes_data, byteorder='little')	
 	if value == 1:
@@ -136,7 +132,7 @@ def Minor_rev_level(value):	#added
 def Last_time_check(value): #added
 	bytes_data = bytes.fromhex(value)
 	last_time_check = int.from_bytes(bytes_data, byteorder='little')
-	last_time_check = datetime.fromtimestamp(write_time).strftime("%A, %B %d, %Y %I:%M:%S")
+	last_time_check = datetime.fromtimestamp(last_time_check).strftime("%A, %B %d, %Y %I:%M:%S")
 	return last_time_check
 
 
@@ -186,43 +182,43 @@ def Default_gid(value):
 	default_gid = int.from_bytes(bytes_data, byteorder='little')
 	return default_gid
 
-def SB_split(): #superblock == list dyal bytes li extractiti
-		s_inodes_count = readFroma2b('00','04')		#0
-		s_blocks_count_lo = readFroma2b('04','08')	#1
-		s_r_blocks_count_lo = readFroma2b('08','C')	#2
-		s_free_blocks_count_lo = readFroma2b('C','10')	#3
-		s_free_inodes_count = readFroma2b('10','14')	#4
-		s_first_data_block = readFroma2b('14','18')	#5
-		s_log_block_size = readFroma2b('18','1C')	#6
-		s_log_cluster_size = readFroma2b('1C','20')	#7
-		s_blocks_per_group = readFroma2b('20','24')	#8
-		s_clusters_per_group = readFroma2b('24','28')	#9
-		s_inodes_per_group = readFroma2b('28','2C')	#10
-		s_mtime = readFroma2b('2C','30')		#11	
-		s_wtime = readFroma2b('30','34')		#12
-		s_mnt_count = readFroma2b('34','36')		#13
-		s_max_mnt_count = readFroma2b('36','38') #added	14
-		s_magic = readFroma2b('38','3A')		#15
-		s_state = readFroma2b('3A','3C')		#16
-		s_errors = readFroma2b('3C','3E')	#added	#17
-		s_minor_rev_level = readFroma2b('3E','40') 	#added 18
-		s_lastcheck = readFroma2b('40','44')	#added	19
-		s_checkinterval = readFroma2b('44','48')	#added 20
-		s_creator_os = readFroma2b('48','4C')		#21
-		s_rev_level = readFroma2b('4C','50')		#22
-		s_def_resuid = readFroma2b('50','52')		#23
-		s_def_resgid = readFroma2b('52','54')		#24
+def SB_split(sBlock): #superblock == list dyal bytes li extr.decode('utf-8')actiti
+		s_inodes_count = sBlock[int('00',base=16)*2:int('04',base=16)*2].decode('utf-8')		#0
+		s_blocks_count_lo = sBlock[int('04',base=16)*2:int('08',base=16)*2].decode('utf-8')	#1
+		s_r_blocks_count_lo = sBlock[int('08',base=16)*2:int('0C',base=16)*2].decode('utf-8')	#2
+		s_free_blocks_count_lo = sBlock[int('0C',base=16)*2:int('10',base=16)*2].decode('utf-8')	#3
+		s_free_inodes_count = sBlock[int('10',base=16)*2:int('14',base=16)*2].decode('utf-8')	#4
+		s_first_data_block = sBlock[int('14',base=16)*2:int('18',base=16)*2].decode('utf-8')	#5
+		s_log_block_size = sBlock[int('18',base=16)*2:int('1C',base=16)*2].decode('utf-8')	#6
+		s_log_cluster_size = sBlock[int('1C',base=16)*2:int('20',base=16)*2].decode('utf-8')	#7
+		s_blocks_per_group = sBlock[int('20',base=16)*2:int('24',base=16)*2].decode('utf-8')	#8
+		s_clusters_per_group = sBlock[int('24',base=16)*2:int('28',base=16)*2].decode('utf-8')	#9
+		s_inodes_per_group = sBlock[int('28',base=16)*2:int('2C',base=16)*2].decode('utf-8')	#10
+		s_mtime = sBlock[int('2C',base=16)*2:int('30',base=16)*2].decode('utf-8')		#11	
+		s_wtime = sBlock[int('30',base=16)*2:int('34',base=16)*2].decode('utf-8')		#12
+		s_mnt_count = sBlock[int('34',base=16)*2:int('36',base=16)*2].decode('utf-8')		#13
+		s_max_mnt_count = sBlock[int('36',base=16)*2:int('38',base=16)*2].decode('utf-8') #added	14
+		s_magic = sBlock[int('38',base=16)*2:int('3A',base=16)*2].decode('utf-8')		#15
+		s_state = sBlock[int('3A',base=16)*2:int('3C',base=16)*2].decode('utf-8')		#16
+		s_errors = sBlock[int('3C',base=16)*2:int('3E',base=16)*2].decode('utf-8')	#added	#17
+		s_minor_rev_level = sBlock[int('3E',base=16)*2:int('40',base=16)*2].decode('utf-8') 	#added 18
+		s_lastcheck = sBlock[int('40',base=16)*2:int('44',base=16)*2].decode('utf-8')	#added	19
+		s_checkinterval = sBlock[int('44',base=16)*2:int('48',base=16)*2].decode('utf-8')	#added 20
+		s_creator_os = sBlock[int('48',base=16)*2:int('4C',base=16)*2].decode('utf-8')		#21
+		s_rev_level = sBlock[int('4C',base=16)*2:int('50',base=16)*2].decode('utf-8')		#22
+		s_def_resuid = sBlock[int('50',base=16)*2:int('52',base=16)*2].decode('utf-8')		#23
+		s_def_resgid = sBlock[int('52',base=16)*2:int('54',base=16)*2].decode('utf-8')		#24
 
 		fields = [s_inodes_count,s_blocks_count_lo,s_r_blocks_count_lo,s_free_blocks_count_lo,s_free_inodes_count,s_first_data_block,s_log_block_size,s_log_cluster_size,s_blocks_per_group,s_clusters_per_group,s_inodes_per_group,s_mtime,s_wtime,s_mnt_count,s_max_mnt_count,s_magic,s_state,s_errors,s_minor_rev_level,s_lastcheck,s_checkinterval,s_creator_os,s_rev_level,s_def_resuid,s_def_resgid]
 		return fields
 
 
-def Parser(fields):
-	SB_split()
+def Parser(content):
+	fields=SB_split(content)
 	result=[Inode_count(fields[0]),
 	Block_count(fields[1]),
 	Su_block(fields[2]),
-	Free_block([fields[3]]),
+	Free_block(fields[3]),
 	Free_inode(fields[4]),
 	First_data_block(fields[5]),
 	Block_size(fields[6]),
@@ -244,5 +240,6 @@ def Parser(fields):
 	Revision_level(fields[22]),
 	Default_uid(fields[23]),
 	Default_gid(fields[24])]
+	return result
 
 
