@@ -5,9 +5,33 @@
 4.return the result in an array
 '''
 
-import readfs
 from readfs import *
 from mbrparse import *
+
+#functions to format the output
+
+
+
+
+
+def a(bytevalue):#convert2dec
+    dec=int(lil2BigE(bytevalue.decode('utf-8')),16)
+    return dec 
+def b(bytevalue):#convert2ascii
+    bytevalue=bytevalue.decode('utf-8')
+    asciiValue=bytes.fromhex(bytevalue).decode("ASCII")
+    asciiValue=asciiValue.replace(';', '\n- ')
+    return asciiValue
+def c(bytevalue):#convert2hex
+    hex=lil2BigE(bytevalue.decode('utf-8'))
+    return hex
+def d(bytevalue):#media descriptor
+    if c(bytevalue)=='f8':
+        medDesc='Hard Disk'
+    else:
+        medDesc=c(bytevalue)
+    return medDesc
+
 
 sectionToParse=fsContent[0:1024]
 sectionToParseElements=[['00', '3', 'Jump instruction'],
@@ -25,12 +49,9 @@ sectionToParseElements=[['00', '3', 'Jump instruction'],
  ['1C', '4', 'Number of Hidden Sectors in Partition'],
  ['20', '4', 'Number of Sectors in Partition'],
  ['24', '4', 'Number of Sectors Per FAT'],
-#  ['25', '1', 'Current head'],
-#  ['27', '4', 'Partition serial number'],
  ['2A', '2', 'Version of FAT32 Drive'],
  ['30', '2', 'Sector Number of the File System Information Sector'],
  ['32', '2', 'Sector Number of the BackupBoot Sector'],
-#  ['36', '8', 'File system type'],
  ['40', '1', 'Logical Drive Number of Partition'],
  ['42', '1', 'Extended boot signature'],
  ['43', '4', 'Serial Number of Partition'],
@@ -39,13 +60,16 @@ sectionToParseElements=[['00', '3', 'Jump instruction'],
  ['1FE', '2', 'Boot sector signature']]
 
 
+functions=[c,b,a,a,a,a,a,a,d,a,a,a,a,a,a,a,a,a,a,c,c,b,a,c]
+print(functions[0](b'fa'))
+print(len(functions))
 
 
-sum=0
 for element in sectionToParseElements:
-    print(f"-{element[2]} : {sectionToParse[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}")
-    sum+=int(element[1])
-print(sum)
+    print(f"-{element[2]} : {functions[sectionToParseElements.index(element)](sectionToParse[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2])}")
+
+
+
 # print(int(sectionToParseElements[2][0],base=16))
 # print(sectionToParse[487*2:487*2+2*2])
 # print(fsContent[0:500])

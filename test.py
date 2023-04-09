@@ -47,5 +47,17 @@ types = {
     0xfc: "Vmware swap",
 }
 
-test='FA'
-print(int(test,base=16))
+test=b'0000'
+def S_errors(value):	#added
+	behaviour=''
+	bytes_data = bytes.fromhex(value.decode('utf-8'))
+	value = int.from_bytes(bytes_data, byteorder='little')
+	if value == 1:
+		behaviour = 'Continue'
+	elif value == 2:
+		behaviour = 'Remount read-only '
+	elif value == 3:
+		behaviour = 'Panic'
+	return behaviour
+
+print(S_errors(test))

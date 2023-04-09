@@ -100,13 +100,17 @@ def Magic_signature(value):
 
 #had jouj dyal les variables(state w behavious) drthom la79ach les fonctions li jayin makay9doch y returniw valeur dyal variable tcreeat f wst if w else, wlkn ba9i lmochkil li gtlk fl audio
 def FS_state(value):
+	bytes_data = bytes.fromhex(value)
+	value = int.from_bytes(bytes_data, byteorder='little')
 	state=''
-	if value == '0001':
-		state = 'cleanly unmounted'
-	elif value == '0002':
+	if value == 1:
+		state = 'Cleanly unmounted'
+	elif value == 2:
 		state = 'Error detected'
-	elif value == '0004':
-		state = 'Orphans being recovred'
+	elif value == 4:
+		state = 'Orphans being recovered'
+	else:
+		state= 'Unknown state'
 	return state
 
 
@@ -144,6 +148,7 @@ def Check_interval(value):	#added
 	
 	
 def Creator_OS(value):
+	creator=''
 	bytes_data = bytes.fromhex(value)
 	value = int.from_bytes(bytes_data, byteorder='little')	
 	if value == 0:

@@ -7,11 +7,11 @@ from superblockparser import *
 
 if fsContent[0:16]==b'0000000000000000':
     superBlock=fsContent[2048:2048+60]
-    blocsize=2**(10+lil2BigEndian(superBlock[48:48+8].decode('utf-8')))
+    blocsize=2**(10+int(lil2BigE(superBlock[48:48+8].decode('utf-8')),16))
     superBlock=fsContent[2048:2048+blocsize*2]
 else:
     superBlock=fsContent[0:0+60]
-    blocsize=2**(10+lil2BigEndian(superBlock[48:48+8].decode('utf-8')))
+    blocsize=2**(10+int(lil2BigE(superBlock[48:48+8].decode('utf-8')),16))
     superBlock=fsContent[0:0+blocsize*2]
 
 
@@ -44,4 +44,7 @@ superBlockElements = [  ['00', '4', 'Inode count'],
 
 
 for element in superBlockElements:
-    print(f"-{element[2]} : {superBlock[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}  --valeur:  {Parser(superBlock)[superBlockElements.index(element)]}")
+    print(f"-{element[2]} : {Parser(superBlock)[superBlockElements.index(element)]}")
+
+
+# {superBlock[int(element[0],base=16)*2:int(element[0],base=16)*2+int(element[1])*2]}  --valeur:

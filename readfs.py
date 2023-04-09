@@ -9,12 +9,10 @@ import mbrprints as mp
 SECTOR_SIZE = 512
 
 #this function converts little endian to big endian, creds to dkuers on stackoverflow
-def lil2BigEndian(hex):
-    hex=bytes(str(hex),'utf-8')
-    ba = bytearray.fromhex(hex.decode("utf-8"))
-    ba.reverse()
-    s = int(''.join(format(x, '02x') for x in ba))
-    # s = bytes(s, 'utf-8')
+def lil2BigE(value):
+    bytes_data = bytes.fromhex(value)
+    s = int.from_bytes(bytes_data, byteorder='little')
+    s=hex(s).replace('0x','')
     return s
 
 #function to calculate the fs starting address
