@@ -1,1 +1,0 @@
-C:\Users\ily455\Desktop\SICS\2\S4\forensics\tp\1-2\deviceImageCorrupted.raw

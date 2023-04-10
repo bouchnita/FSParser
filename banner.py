@@ -1,5 +1,4 @@
-# pip install pyfiglet
-import pyfiglet
-
-ascii_banner = pyfiglet.figlet_format("FSParser")
-print(ascii_banner)
+#banner osf
+ascii_banner = 'banner hh'
+def print_banner():
+    print(ascii_banner)
