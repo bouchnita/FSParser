@@ -14,7 +14,7 @@ This script parses MBR partitions, FAT32 filesystems, and EXT filesystems to ext
 
 ## Usage
 1. Clone the repository.
-2. Run the script using `python FSParser.py` with any desired command line arguments.
+2. Run the script using `python FSParser.py` (check --help for further infos).
 3. Follow the instructions provided by the script.
 
 Example usage:
