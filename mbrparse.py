@@ -588,7 +588,7 @@ def calStartAddr(addr):
 
 #function to calculate the fs ending address
 def calEndAddr(startAddr, numOfSec):
-    B=str(hex(numOfSec*SECTOR_SIZE+startAddr*SECTOR_SIZE)).replace('0x', '')
+    B=str(hex(10*SECTOR_SIZE+startAddr*SECTOR_SIZE)).replace('0x', '')
     return B
 
 
