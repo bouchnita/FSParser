@@ -360,9 +360,8 @@ def Max_mount_count(value):	#added
 
 
 def Magic_signature(value):
-	bytes_data = bytes.fromhex(value)
-	magic_signature = int.from_bytes(bytes_data, byteorder='little')
-	return magic_signature
+
+	return value
 
 def FS_state(value):
 	bytes_data = bytes.fromhex(value)
