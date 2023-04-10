@@ -593,8 +593,6 @@ def calEndAddr(startAddr, numOfSec):
 
 
 
-#Banner
-print_banner()
 # Create an argument parser
 parser = argparse.ArgumentParser(description='Parse MBR partitions and filesystems.')
 
