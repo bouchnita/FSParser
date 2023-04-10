@@ -529,9 +529,6 @@ def printEXT(fsContent):
 def printResult(what):
     if what == 'mbr':
         index=1
-        print('''
-[+]Parsing...
-[+]Reading... \n''')
         print("[+]Partitions:\n")
         for part in splitPartitions()[0:4] :
             print('#Partion number ', index, ':')
@@ -602,7 +599,7 @@ def calEndAddr(startAddr, numOfSec):
 
 
 #Banner
-    print_banner()
+print_banner()
 # Create an argument parser
 parser = argparse.ArgumentParser(description='Parse MBR partitions and filesystems.')
 

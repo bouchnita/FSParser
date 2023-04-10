@@ -6,4 +6,6 @@ banner ="""
 /_/    /____/_/    \__,_/_/  /____/\___/_/     
                                                
 """
-print(banner)
+
+def print_banner():
+    print(banner)
